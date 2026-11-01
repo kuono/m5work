@@ -1,0 +1,31 @@
+# ==============================================================================
+# M5Core2 モニタ画面レイアウト設定 (現場調整用)
+# 書式:
+#   text: (x, y), size, align, color, "固定テキスト"
+#   rect: (x, y), (w, h), r, color
+#   slot: id, (x, y), size, align, color, "書式指定文字列"
+# ==============================================================================
+
+[STOPPED]
+bg: red
+text: (160, 35), 4, center, white, "STOPPED"
+line: (40, 175), (280, 175), white
+slot: 1, (160, 190), 2, center, white, "Buzzer: %s"
+slot: 2, (20, 95),   2, left,   white, "Vibe: %.2f G   "
+slot: 3, (20, 125),  2, left,   white, "Stick: %3d%% | Core2: %3d%%  "
+
+[RUNNING]
+bg: darkgreen
+text: (160, 35), 4, center, white, "RUNNING"
+line: (40, 175), (280, 175), white
+slot: 1, (160, 190), 2, center, white, "Buzzer: %s"
+slot: 2, (20, 95),   2, left,   white, "Vibe: %.2f G   "
+slot: 3, (20, 125),  2, left,   white, "Stick: %3d%% | Core2: %3d%%  "
+
+[DISCONNECTED]
+bg: orange
+text: (160, 35), 3, center, white, "DISCONNECTED"
+line: (40, 175), (280, 175), white
+slot: 1, (160, 190), 2, center, white, "Buzzer: %s"
+slot: 2, (20, 95),   2, left,   white, "Vibe: %.2f G   "
+slot: 3, (20, 125),  2, left,   white, "Stick: %3d%% | Core2: %3d%%  "

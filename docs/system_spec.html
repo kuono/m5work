@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="info@kuono.net" />
+  <meta name="dcterms.date" content="2026-11-01" />
+  <title>遠隔振動監視システム 仕様書</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">遠隔振動監視システム 仕様書</h1>
+<p class="subtitle">M5StickC Plus2 (センサ) × M5Core2 (集中モニタ)</p>
+<p class="author">info@kuono.net</p>
+<p class="date">2026-11-01</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#システム概要" id="toc-システム概要"><span
+class="toc-section-number">1</span> システム概要</a></li>
+<li><a href="#システム構成" id="toc-システム構成"><span
+class="toc-section-number">2</span> システム構成</a></li>
+<li><a href="#通信仕様-esp-now" id="toc-通信仕様-esp-now"><span
+class="toc-section-number">3</span> 通信仕様 (ESP-NOW)</a>
+<ul>
+<li><a href="#パケット構造-packetdata-12-バイト"
+id="toc-パケット構造-packetdata-12-バイト"><span
+class="toc-section-number">3.1</span> パケット構造
+(<code>PacketData</code> / 12 バイト)</a></li>
+</ul></li>
+<li><a href="#子機sensor機能仕様" id="toc-子機sensor機能仕様"><span
+class="toc-section-number">4</span> 子機（Sensor）機能仕様</a>
+<ul>
+<li><a href="#振動検知とオフディレイ保持-logic.hs"
+id="toc-振動検知とオフディレイ保持-logic.hs"><span
+class="toc-section-number">4.1</span> 振動検知とオフディレイ保持
+(<code>Logic.hs</code>)</a></li>
+<li><a href="#現場しきい値切替機能-子機-btnb"
+id="toc-現場しきい値切替機能-子機-btnb"><span
+class="toc-section-number">4.2</span> 現場しきい値切替機能 (子機
+BtnB)</a></li>
+</ul></li>
+<li><a href="#親機receiver機能仕様" id="toc-親機receiver機能仕様"><span
+class="toc-section-number">5</span> 親機（Receiver）機能仕様</a>
+<ul>
+<li><a href="#状態機械コアロジック-monitorlogic.hs"
+id="toc-状態機械コアロジック-monitorlogic.hs"><span
+class="toc-section-number">5.1</span> 状態機械コアロジック
+(<code>MonitorLogic.hs</code>)</a></li>
+<li><a href="#ミュートモード制御-親機-btnb"
+id="toc-ミュートモード制御-親機-btnb"><span
+class="toc-section-number">5.2</span> ミュートモード制御 (親機
+BtnB)</a></li>
+<li><a href="#現場調整用テンプレート分離-layout.txt"
+id="toc-現場調整用テンプレート分離-layout.txt"><span
+class="toc-section-number">5.3</span> 現場調整用テンプレート分離
+(<code>layout.txt</code>)</a></li>
+<li><a href="#保守情報ポップアップ-btna"
+id="toc-保守情報ポップアップ-btna"><span
+class="toc-section-number">5.4</span> 保守情報ポップアップ
+(BtnA)</a></li>
+</ul></li>
+<li><a href="#ビルドデプロイ-makefile"
+id="toc-ビルドデプロイ-makefile"><span
+class="toc-section-number">6</span> ビルド＆デプロイ
+(<code>Makefile</code>)</a></li>
+</ul>
+</nav>
+<h2 data-number="1" id="システム概要"><span
+class="header-section-number">1</span> システム概要</h2>
+<p>本システムは、工作機械や産業装置の稼働状況を遠隔監視するための小型組込システムである。</p>
+<p>子機（M5StickC Plus2）が内蔵 6 軸 IMU から振動を検知・判定し、暗号化
+ESP-NOW
+通信を用いて親機（M5Core2）へパケットを送信する。親機は状態機械に基づいてディスプレイ表示およびブザー警告を行う。</p>
+<p>ロジック層とハードウェア層を厳密に分離するため、<strong>Haskell（MicroHs）による純粋状態機械</strong>
+と <strong>C++ による薄いハードウェア抽象化レイヤー（HAL）</strong>
+の協調アーキテクチャを採用している。</p>
+<h2 data-number="2" id="システム構成"><span
+class="header-section-number">2</span> システム構成</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>区分</th>
+<th>機種</th>
+<th>役割</th>
+<th>主要コンポーネント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>子機 (Sensor)</strong></td>
+<td>M5StickC Plus2</td>
+<td>振動計測・しきい値判定・送信</td>
+<td>MPU6886 (IMU), ESP-NOW (送信), MicroHs, NVS (Preferences)</td>
+</tr>
+<tr>
+<td><strong>親機 (Receiver)</strong></td>
+<td>M5Core2</td>
+<td>監視・UI表示・音響警告</td>
+<td>320x240 LCD, ESP-NOW (受信), MicroHs, LittleFS/SD</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="3" id="通信仕様-esp-now"><span
+class="header-section-number">3</span> 通信仕様 (ESP-NOW)</h2>
+<ul>
+<li><strong>プロトコル</strong>: ESP-NOW (Wi-Fi STA モード, チャンネル
+0)</li>
+<li><strong>暗号化</strong>: PMK / LMK による AES-128 ビット暗号化</li>
+<li><strong>送信周期</strong>: 20 Hz (50 ms 間隔)</li>
+<li><strong>タイムアウト判定</strong>: 3000 ms 受信途絶で
+<code>DISCONNECTED</code> 状態へ遷移</li>
+</ul>
+<h3 data-number="3.1" id="パケット構造-packetdata-12-バイト"><span
+class="header-section-number">3.1</span> パケット構造
+(<code>PacketData</code> / 12 バイト)</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> status<span class="op">;</span>    <span class="co">// 0: STOPPED, 1: RUNNING</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> delta<span class="op">;</span>       <span class="co">// 振動ノルム変動量 (単位: G)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int8_t</span> battery<span class="op">;</span>    <span class="co">// バッテリ残量 (0..100%, 負値は給電中)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> PacketData<span class="op">;</span></span></code></pre></div>
+<h2 data-number="4" id="子機sensor機能仕様"><span
+class="header-section-number">4</span> 子機（Sensor）機能仕様</h2>
+<h3 data-number="4.1" id="振動検知とオフディレイ保持-logic.hs"><span
+class="header-section-number">4.1</span> 振動検知とオフディレイ保持
+(<code>Logic.hs</code>)</h3>
+<ul>
+<li><strong>IMU 差分ノルム計算</strong>:
+3軸合成加速度ベクトルの前回値との差分絶対値 <span
+class="math inline"><em>Δ</em><em>G</em> = |‖<strong>a</strong><sub><em>t</em></sub>‖−‖<strong>a</strong><sub><em>t</em> − 1</sub>‖|</span>
+を算出。</li>
+<li><strong>オフディレイタイマー</strong>:
+振動ノルムがしきい値を超えた瞬間から <strong>2.0秒間（2000 ms）</strong>
+は <code>RUNNING</code>
+状態をホールド。機械動作に伴う間欠的な振動の谷間による判定バタつきを防止。</li>
+</ul>
+<h3 data-number="4.2" id="現場しきい値切替機能-子機-btnb"><span
+class="header-section-number">4.2</span> 現場しきい値切替機能 (子機
+BtnB)</h3>
+<p>子機側面ボタン（BtnB）をクリックするたびに感度プリセットが順次切り替わり、ESP32
+内蔵 NVS（Preferences）に自動保存される（電源切断後も保持）。</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>レベル</th>
+<th>表示ラベル</th>
+<th>しきい値 (<span
+class="math inline"><em>Δ</em><em>G</em></span>)</th>
+<th>想定機器・用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lv.1</strong></td>
+<td><code>Lv.1 High</code></td>
+<td><span class="math inline">0.10 G</span></td>
+<td>精密機器、小型弱振動モーター</td>
+</tr>
+<tr>
+<td><strong>Lv.2</strong></td>
+<td><code>Lv.2 Mid</code></td>
+<td><span class="math inline">0.25 G</span></td>
+<td>一般工作機械（旋盤・フライス等、デフォルト）</td>
+</tr>
+<tr>
+<td><strong>Lv.3</strong></td>
+<td><code>Lv.3 Low</code></td>
+<td><span class="math inline">0.50 G</span></td>
+<td>プレス機・大型コンプレッサー等</td>
+</tr>
+<tr>
+<td><strong>Lv.4</strong></td>
+<td><code>Lv.4 Min</code></td>
+<td><span class="math inline">1.00 G</span></td>
+<td>激しい振動を伴う破砕機・衝撃検知</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="5" id="親機receiver機能仕様"><span
+class="header-section-number">5</span> 親機（Receiver）機能仕様</h2>
+<h3 data-number="5.1" id="状態機械コアロジック-monitorlogic.hs"><span
+class="header-section-number">5.1</span> 状態機械コアロジック
+(<code>MonitorLogic.hs</code>)</h3>
+<pre class="text"><code>                 子機パケット受信 (status = 1)
+       ┌──────────────────────────────────────────────┐
+       │                                              ▼
+[DISCONNECTED] ──(パケット受信: status = 0)──&gt; [STOPPED]
+       ▲                                         │   ▲
+       │                                         │   │ 振動停止 (2s後)
+       │ 3000ms 受信なし                         ▼   │
+       └───────────────────────────────────── [RUNNING]</code></pre>
+<ul>
+<li><strong>STOPPED</strong>: 機械停止。ミュートモードが
+<code>ModeNormal</code> の場合、断続警告音（1500Hz）を吹鳴。</li>
+<li><strong>RUNNING</strong>: 機械稼働中。正常動作。</li>
+<li><strong>DISCONNECTED</strong>:
+通信途絶。復旧・断絶時に単発の通知音を出力。</li>
+</ul>
+<h3 data-number="5.2" id="ミュートモード制御-親機-btnb"><span
+class="header-section-number">5.2</span> ミュートモード制御 (親機
+BtnB)</h3>
+<p>親機下部の中央タッチボタン（BtnB）により、ミュート状態が順次トグルする。</p>
+<ol type="1">
+<li><strong><code>Persistent Mute</code> (永続ミュート)</strong>:
+停止警告音を無期限で消音。<strong>※机上テスト時の騒音防止のため、起動時初期値に設定。</strong></li>
+<li><strong><code>Active</code> (通常モード)</strong>:
+停止時に警告音を吹鳴。</li>
+<li><strong><code>Mute (1x)</code> (1回限定ミュート)</strong>:
+現在の停止警告音を消音。機械が一度稼働（RUNNING）に戻ると自動的に
+<code>Active</code> へ復帰。</li>
+</ol>
+<h3 data-number="5.3" id="現場調整用テンプレート分離-layout.txt"><span
+class="header-section-number">5.3</span> 現場調整用テンプレート分離
+(<code>layout.txt</code>)</h3>
+<p>UI
+の文言、座標、フォントサイズ、配色を外部テキストファイルから読み込む。Haskell
+側を再コンパイルすることなく画面レイアウトの調整が可能。</p>
+<ul>
+<li><strong>探索優先度</strong>: microSDカード
+(<code>/layout.txt</code>) ➔ 内蔵フラッシュ LittleFS
+(<code>/layout.txt</code>) ➔ 内蔵デフォルト設定</li>
+<li><strong>動的スロット設計</strong>:
+<ul>
+<li><code>Slot 1</code>: ミュート状態文字列
+(<code>Buzzer: %s</code>)</li>
+<li><code>Slot 2</code>: 振動値 (<code>Vibe: %.2f G</code>)</li>
+<li><code>Slot 3</code>: バッテリ情報
+(<code>Stick:%3d%% | Core2:%3d%%</code>)</li>
+</ul></li>
+</ul>
+<h3 data-number="5.4" id="保守情報ポップアップ-btna"><span
+class="header-section-number">5.4</span> 保守情報ポップアップ
+(BtnA)</h3>
+<p>親機左下のタッチボタン（BtnA）で「SYSTEM
+INFO」オーバーレイを表示・非表示。</p>
+<ul>
+<li><strong>表示項目</strong>:
+<ul>
+<li>ホスト MAC アドレス (<code>esp_read_mac</code> による eFuse
+固有値)</li>
+<li>相手機 (子機) MAC アドレス</li>
+<li>システム連続稼働時間 (Uptime)</li>
+<li>累積受信パケット数 (Rx Packets)</li>
+</ul></li>
+<li><strong>描画設計</strong>:
+初回開閉時のみ枠を描画し、数値変化時のみ部分上書きすることでフリッカー（画面のちらつき）を完全に抑止。</li>
+</ul>
+<h2 data-number="6" id="ビルドデプロイ-makefile"><span
+class="header-section-number">6</span> ビルド＆デプロイ
+(<code>Makefile</code>)</h2>
+<p>プロジェクトルート直下の <code>Makefile</code>
+により、トランスパイル・ランタイム同期・ファームウェアビルドを一括管理。</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ヘルプ一覧</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> help</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ビルド</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> haskell         <span class="co"># Logic.hs / MonitorLogic.hs の C コード生成</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> sensor          <span class="co"># 子機 (M5StickC Plus2) ビルド</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> receiver        <span class="co"># 親機 (M5Core2) ビルド</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> all             <span class="co"># 全体ビルド</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 実機書き込み</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload-sensor   <span class="co"># 子機ファームウェア書き込み</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload-receiver <span class="co"># 親機ファームウェア書き込み</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> upload-fs       <span class="co"># 親機 LittleFS (layout.txt) 書き込み</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 仕様書生成 / クリーン</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> doc             <span class="co"># ドキュメント再生成 (build_docs.sh 実行)</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> clean           <span class="co"># 中間成果物・キャッシュ破棄</span></span></code></pre></div>
+</body>
+</html>
